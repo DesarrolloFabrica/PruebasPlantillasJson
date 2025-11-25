@@ -9,6 +9,7 @@ import type { CourseData, LandingContentBlock } from "../../types/course";
 import HeroSection from "../figmaDb/TF-Ejemplo/sections/Hero";
 import { IntroductionSection } from "../figmaDb/TF-Ejemplo/sections/Introduction";
 import { KeyConceptsSection } from "../figmaDb/TF-Ejemplo/sections/KeyConcepts";
+import { Topic1Section } from "../figmaDb/TF-Ejemplo/sections/topic1";
 
 // Props que recibe la plantilla principal: todo el CourseData
 interface TemplateFigmaDBProps {
@@ -30,10 +31,10 @@ export const TemplateFigmaDB: React.FC<TemplateFigmaDBProps> = ({ data }) => {
       <main className="w-full flex flex-col">
         {/* Render del Hero */}
         <HeroSection overview={landing?.overview} />
-        
+
         {/* ⬅️ CAMBIO CLAVE 2: Eliminé el div vacío <div className="px-4 lg:px-10 "></div> 
             que podía estar causando separación innecesaria. */}
-        
+
         {/* Render de los bloques (intro, conceptos, etc.) */}
         <BlocksRenderer blocks={blocks} />
 
@@ -72,11 +73,13 @@ const BlocksRenderer: React.FC<{ blocks: LandingContentBlock[] }> = ({
             return <IntroductionSection key={index} block={block} />;
           case "conceptos":
             return <KeyConceptsSection key={index} block={block} />;
+          case "producto": 
+            return <Topic1Section key={index} block={block} />;
           default:
             return (
               // Envolvemos los bloques genéricos en un contenedor con margen para que no se peguen feo
               <div key={index} className="px-4 lg:px-10 py-12">
-                 <ContentBlockSection block={block} index={index} />
+                <ContentBlockSection block={block} index={index} />
               </div>
             );
         }
@@ -120,7 +123,9 @@ const ContentBlockSection: React.FC<{
       </div>
 
       {block.texto && (
-        <p className="mb-6 text-base text-slate-300 leading-relaxed">{block.texto}</p>
+        <p className="mb-6 text-base text-slate-300 leading-relaxed">
+          {block.texto}
+        </p>
       )}
 
       {/* Bullets generales */}
@@ -150,12 +155,14 @@ const ContentBlockSection: React.FC<{
                 <h3 className="text-sm font-bold text-white mb-2">
                   {col.titulo}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{col.texto}</p>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {col.texto}
+                </p>
                 {col.bullets && col.bullets.length > 0 && (
                   <ul className="mt-3 space-y-1.5 text-[11px] text-slate-400 border-t border-slate-800 pt-3">
                     {col.bullets.map((b, j) => (
                       <li key={j} className="flex gap-1.5">
-                         <span className="text-emerald-500">•</span> {b}
+                        <span className="text-emerald-500">•</span> {b}
                       </li>
                     ))}
                   </ul>
@@ -217,16 +224,22 @@ const ContentBlockSection: React.FC<{
             {block.ejemplo.titulo}
           </h3>
           <div className="space-y-3 relative z-10">
-             <div className="bg-black/20 p-3 rounded-lg border border-slate-800/50">
-                <span className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Enunciado</span>
-                <p className="text-xs text-slate-300">{block.ejemplo.enunciado}</p>
-             </div>
-             <div className="p-1">
-                <span className="block text-[10px] font-bold text-emerald-500/80 uppercase mb-1">Desarrollo</span>
-                <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">
-                   {block.ejemplo.desarrollo}
-                </p>
-             </div>
+            <div className="bg-black/20 p-3 rounded-lg border border-slate-800/50">
+              <span className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                Enunciado
+              </span>
+              <p className="text-xs text-slate-300">
+                {block.ejemplo.enunciado}
+              </p>
+            </div>
+            <div className="p-1">
+              <span className="block text-[10px] font-bold text-emerald-500/80 uppercase mb-1">
+                Desarrollo
+              </span>
+              <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">
+                {block.ejemplo.desarrollo}
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -244,15 +257,17 @@ const ClosingSection: React.FC<{
   return (
     <section className="mt-12 mb-12 mx-auto max-w-4xl rounded-3xl border border-emerald-500/30 bg-linear-to-br from-slate-900 to-black p-8 text-center relative overflow-hidden group">
       <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors duration-500"></div>
-      
+
       <div className="relative z-10 flex flex-col items-center gap-6">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-400 mb-2">
             Curso Completado
           </p>
-          <p className="text-lg text-slate-200 font-medium max-w-2xl mx-auto">{message}</p>
+          <p className="text-lg text-slate-200 font-medium max-w-2xl mx-auto">
+            {message}
+          </p>
         </div>
-        
+
         <button className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3 text-sm font-bold text-slate-950 shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:bg-emerald-400 hover:-translate-y-1 transition-all duration-300">
           {callToAction}
         </button>

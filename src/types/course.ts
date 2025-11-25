@@ -71,24 +71,10 @@ export interface LandingStarterQuiz {
 
 // 7. Bloques de contenido DIDÁCTICO (nuevo + legacy)
 export type LandingContentBlockType =
-  | "introduction"  
-  | "entityRelationship"  
-  | "normalization" 
-  | "sqlBasics"     
-  | "databaseTypes" 
-  | "transactions"
-  | "roadmap"
-  | "fundamentos"
-  | "leyes"
-  | "componentes"
-  | "matematicas"
-  | "metodos"
-  | "teoremasTransitorios"
+  | "introduction"
   | "conceptos"
-  | "mapa"
-  | "caso"
-  | "laboratorio"
-  | "resumen";
+  | "producto"
+  | "segmentacion";
 
 export interface LandingContentBlock {
   tipo: LandingContentBlockType;
@@ -96,67 +82,39 @@ export interface LandingContentBlock {
   subtitulo?: string;
   texto?: string;
 
-  tipoFigma?: "introduction" | "entityRelationship" | "sqlBasics" | "normalization" | "databaseTypes"| "transactions";
+  tipoFigma?: "introduction" | "entityRelationship" | "sqlBasics" | "normalization" | "databaseTypes" | "transactions";
 
-  /**
-   * Bullets generales (por ejemplo, listas de ideas clave).
-   */
   bullets?: string[];
 
-  /**
-   * Columnas / cards reutilizables.
-   * Se usan para:
-   * - "roadmap": bloques grandes del curso (fundamentos, leyes, componentes, etc.)
-   * - "fundamentos": Corriente / Voltaje / Resistencia
-   * - "leyes": Ohm / KCL / KVL / Conservación
-   * - "matematicas": 4 bloques matemáticos
-   * - "metodos": Nodos / Mallas / Superposición
-   * - tipos legacy como "mapa"
-   */
   columnas?: {
     titulo: string;
     texto: string;
     bullets?: string[];
   }[];
 
-  /**
-   * Pasos secuenciales (timeline, laboratorios, etc.).
-   */
   pasos?: string[];
 
-  /**
-   * Ejemplo desarrollado (para "caso" o bloques similares).
-   */
   ejemplo?: {
     titulo: string;
     enunciado: string;
     desarrollo: string;
   };
 
-  /**
-   * Items secundarios (por ejemplo RC, RL, RLC en "teoremasTransitorios").
-   */
   itemsSecundarios?: {
     titulo: string;
     texto: string;
   }[];
 
-  /**
-   * Checklist específico del bloque (no confundir con learningOutcomes global).
-   */
   checklist?: string[];
 
-
-
-   // --------- CAMPOS ESPECÍFICOS PARA TRANSACTIONS / ACID ---------
-  leccionNumero?: string;            // "7 de 10"
-  descripcion?: string;              // texto grande bajo el título
+  leccionNumero?: string;
+  descripcion?: string;
 
   propiedades?: {
-    letter: string;                  // "A", "C", "I", "D"
-    name: string;                    // "Atomicidad"
-    color: string;                   // "from-blue-500 to-cyan-500"
-    icon?: "database" | "shield" | "lock" | "refresh"; // clave para mapear icono
+    letter: string;
+    name: string;
+    color: string;
+    icon?: "database" | "shield" | "lock" | "refresh";
     description: string;
     example: {
       scenario: string;
@@ -185,9 +143,142 @@ export interface LandingContentBlock {
     descripcion?: string;
     casos?: MarketingMixCase[];
   };
+
+  /**
+   * Niveles del producto (3 tarjetas clicables).
+   */
+  productLevels?: {
+    level: string;
+    icon: string;
+    desc: string;
+    color?: string;
+    detail: string;
+    example: string;
+    keyPoint: string;
+  }[];
+
+  /**
+   * Clasificación de productos (acordeón).
+   */
+  productCategories?: {
+    id: string;
+    title: string;
+    desc: string;
+    examples: string;
+    strategy: string;
+    icon: string;
+  }[];
+
+  /**
+   * Ciclo de vida del producto.
+   */
+  lifeCycle?: {
+    titulo?: string;
+    descripcion?: string;
+    phases: {
+      stage: string;
+      sales: string;
+      profit: string;
+      strategy: string;
+      example: string;
+      color: string;
+      actions: string[];
+    }[];
+  };
+
+  /**
+   * Bloque final de estrategia de marca.
+   */
+  brandStrategy?: {
+    titulo?: string;
+    descripcion?: string;
+    bullets: {
+      label: string;
+      desc: string;
+    }[];
+    caseStudy: {
+      titulo: string;
+      valorMarca: string;
+      asociaciones: string;
+      resultado: string;
+    };
+  };
+    /**
+   * Segmentación de mercados (Topic 2)
+   * Permite sobreescribir los ejemplos, bases, estrategias y requisitos
+   * desde el JSON. Si no vienen, se usan los defaults del componente.
+   */
+  segmentationExamples?: {
+    toyota?: {
+      company?: string;
+      icon?: string;
+      segments?: {
+        name: string;
+        product: string;
+        benefit: string;
+      }[];
+    };
+    nike?: {
+      company?: string;
+      icon?: string;
+      segments?: {
+        name: string;
+        product: string;
+        benefit: string;
+      }[];
+    };
+    netflix?: {
+      company?: string;
+      icon?: string;
+      segments?: {
+        name: string;
+        product: string;
+        benefit: string;
+      }[];
+    };
+  };
+
+  segmentationBases?: {
+    type?: string;
+    variables?: string[];
+    example?: string;
+    whenToUse?: string;
+  }[];
+
+  targetingStrategies?: {
+    indiferenciado?: {
+      name?: string;
+      desc?: string;
+      pros?: string[];
+      cons?: string[];
+      example?: string;
+      icon?: string;
+    };
+    diferenciado?: {
+      name?: string;
+      desc?: string;
+      pros?: string[];
+      cons?: string[];
+      example?: string;
+      icon?: string;
+    };
+    concentrado?: {
+      name?: string;
+      desc?: string;
+      pros?: string[];
+      cons?: string[];
+      example?: string;
+      icon?: string;
+    };
+  };
+
+  segmentationRequirements?: {
+    label?: string;
+    desc?: string;
+    icon?: string;
+  }[];
+
 }
-
-
 
 
 // ---------- BLOQUE COMPLETO DE LANDING ----------
