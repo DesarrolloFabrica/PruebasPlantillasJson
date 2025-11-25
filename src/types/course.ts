@@ -72,6 +72,7 @@ export interface LandingStarterQuiz {
 // 7. Bloques de contenido DIDÁCTICO (nuevo + legacy)
 export type LandingContentBlockType =
   | "introduction"  
+  | "Hero"  
   | "entityRelationship"  
   | "normalization" 
   | "sqlBasics"     

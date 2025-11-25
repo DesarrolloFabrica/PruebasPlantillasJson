@@ -6,52 +6,70 @@ import type { TemplateId } from "../../types/templates";
 
 // Las plantillas
 
-import { DatabaseCourseTemplate } from "../templates/DatabaseCourseTemplate";
+
+import DatabaseCourseTemplateJose from "../templates/DatabaseCourseTemplateJose";
+
+
 
 interface PreviewShellProps {
+  // JSON ya parseado al tipo CourseData
   data: CourseData | null;
+  // Plantilla seleccionada por el usuario
   templateId: TemplateId;
 }
 
-type TemplateComponent = React.ComponentType<{ data: CourseData }>;
-
-// Usamos Partial<Record<...>> porque todavía no existen componentes
-// para todas las variantes de TemplateId definidas en `templates.ts`.
-// Así evitamos el error de TypeScript por claves faltantes y manejamos
-// la ausencia con un fallback más abajo.
-const TEMPLATE_COMPONENTS: Partial<Record<TemplateId, TemplateComponent>> = {
-  databaseFigma: DatabaseCourseTemplate,
-};
-
+/**
+ * PreviewShell
+ * ------------
+ * Este componente:
+ * - No agrega marcos, bordes ni tarjetas extras.
+ * - Solo se encarga de:
+ *    1) Elegir qué plantilla renderizar según templateId.
+ *    2) Proveer un contenedor con overflow-auto para el scroll interno.
+ * - De esta forma, la plantilla se ve a pantalla completa en la columna derecha,
+ *   igual que la vista de Figma.
+ */
 const PreviewShell: React.FC<PreviewShellProps> = ({ data, templateId }) => {
-  const Template = TEMPLATE_COMPONENTS[templateId];
+  // Si el JSON aún no está parseado, mostramos un mensaje suave de ayuda
+  if (!data) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-slate-950">
+        <div className="max-w-md text-center text-slate-400 text-sm">
+          <p className="font-semibold text-slate-200 mb-2">
+            Pega un JSON válido para ver la vista previa del curso.
+          </p>
+          <p>
+            En el panel izquierdo ajusta el contenido y haz clic en
+            <span className="font-semibold text-emerald-400">
+              {" "}“Generar vista previa”.
+            </span>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Función para decidir qué plantilla renderizar según el id
+  const renderTemplate = () => {
+    switch (templateId) {
+      case "databaseFigma":
+        // Plantilla de landing DB basada en tu diseño de Figma
+        return <DatabaseCourseTemplateJose data={data} />;
+
+      // Si luego agregas otra plantilla tipo "figmaDesign",
+      // puedes activarla aquí:
+      // case "figmaDesign":
+      //   return <TemplateFigmaDesign data={data} />;
+
+    }
+  };
 
   return (
-    <section className="flex h-full flex-col rounded-3xl bg-emerald-50/80 p-4 shadow-lg border border-emerald-200">
-      {/* Encabezado */}
-      <header className="mb-4 flex items-center justify-between rounded-2xl bg-emerald-900/90 px-4 py-3 text-sm text-emerald-50 shadow-md">
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-emerald-300" />
-          <span className="font-medium">Vista previa del curso</span>
-        </div>
-        <span className="text-xs text-emerald-100/80">Renderizado en vivo</span>
-      </header>
-
-      {/* Contenido de la plantilla */}
-      <div className="flex-1 overflow-y-auto rounded-2xl bg-linear-to-b from-emerald-50/40 to-emerald-100/10 p-4">
-        {!data ? (
-          <div className="flex h-full items-center justify-center text-sm text-emerald-700/80">
-            Pega un JSON válido y genera la vista previa para ver tu curso aquí.
-          </div>
-        ) : Template ? (
-          <Template data={data} />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-emerald-700/80">
-            No hay componente de plantilla implementado para: {templateId}
-          </div>
-        )}
-      </div>
-    </section>
+    // Contenedor que ocupa TODO el espacio de la columna derecha
+    // y controla el scroll interno para la plantilla.
+    <div className="h-full w-full overflow-auto bg-slate-950">
+      {renderTemplate()}
+    </div>
   );
 };
 

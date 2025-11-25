@@ -83,6 +83,7 @@ export function JsonInputPanel({
           <option value="premium">💎 Premium</option>
           <option value="googleStudio">🧠 Google Studio</option>
           <option value="databaseFigma">🧪 Figma </option>
+          <option value="databaseJose">🎨 Plantilla José</option>
         </select>
       </div>
 
