@@ -21,6 +21,7 @@ export function JsonInputPanel({
 }: JsonInputPanelProps) {
   const [error, setError] = useState<string | null>(null);
 
+  // Intenta parsear el JSON y validar la estructura base
   const handleSubmit = () => {
     try {
       const parsed = JSON.parse(value) as CourseData;
@@ -39,6 +40,7 @@ export function JsonInputPanel({
     }
   };
 
+  // Cuando el usuario cambia de plantilla en el select
   const handleTemplateSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onTemplateChange(e.target.value as TemplateId);
   };
@@ -79,10 +81,14 @@ export function JsonInputPanel({
           value={selectedTemplateId}
           onChange={handleTemplateSelect}
         >
+          {/* Plantillas antiguas que ya tenías */}
           <option value="minimal">⚡ Minimal</option>
           <option value="premium">💎 Premium</option>
           <option value="googleStudio">🧠 Google Studio</option>
-          <option value="databaseFigma">🧪 Figma </option>
+          <option value="databaseFigma">🧪 DB legacy</option>
+
+          {/* NUEVA plantilla basada en el diseño de Figma */}
+          <option value="figmaDesign">🎨 Figma DB (nuevo)</option>
         </select>
       </div>
 

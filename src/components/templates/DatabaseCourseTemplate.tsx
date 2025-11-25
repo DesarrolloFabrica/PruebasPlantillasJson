@@ -2,7 +2,6 @@
 import React from "react";
 import type { CourseData, LandingContentBlock } from "../../types/course";
 import { IntroductionSection } from "../figmaDb/BD-Ejemplo/Introduction";
-import { EntityRelationshipSection } from "../figmaDb/BD-Ejemplo/EntityRelationship";
 import { SQLBasicsSection } from "../figmaDb/BD-Ejemplo/SQLBasics";
 import { NormalizationSection } from "../figmaDb/BD-Ejemplo/Normalization";
 import { DatabaseTypesSection } from "../figmaDb/BD-Ejemplo/DatabaseTypes";
@@ -204,10 +203,6 @@ const BlocksRenderer: React.FC<{ blocks: LandingContentBlock[] }> = ({ blocks })
         switch (block.tipo) {
           case "introduction":
             return <IntroductionSection key={index} block={block} />;
-
-          case "entityRelationship":
-            return <EntityRelationshipSection key={index} block={block} />;
-
           case "sqlBasics":
             return <SQLBasicsSection key={index} block={block} />;
 

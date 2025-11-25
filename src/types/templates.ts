@@ -1,6 +1,6 @@
 // src/types/templates.ts
 
-export type TemplateId = "minimal" | "premium" | "googleStudio"  | "databaseFigma";
+export type TemplateId = "databaseFigma"  | "figmaDesign";  
 
 export interface TemplateDefinition {
   id: TemplateId;
@@ -8,8 +8,6 @@ export interface TemplateDefinition {
 }
 
 export const TEMPLATES: TemplateDefinition[] = [
-  { id: "minimal", label: "Minimal" },
-  { id: "premium", label: "Premium interactiva" },
-  { id: "googleStudio", label: "Google Studio avanzada" },
-  { id: "databaseFigma", label: "Landing Bases de Datos" } // NUEVO
+  { id: "databaseFigma", label: "Landing Bases de Datos" },
+  { id: "figmaDesign", label: "Landing Figma nueva" }, 
 ];

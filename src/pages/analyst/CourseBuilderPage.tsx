@@ -1,79 +1,77 @@
 // src/pages/analyst/CourseBuilderPage.tsx
 
 import React, { useState } from "react";
+// Panel de entrada de JSON y selector de plantilla
 import { JsonInputPanel } from "../../components/analyst/JsonInputPanel";
+// Contenedor que renderiza la plantilla seleccionada
 import PreviewShell from "../../components/analyst/PreviewShell";
+// Header verde superior de la app
 import AppHeader from "../../components/layout/AppHeader";
+// Tipos del curso y plantillas
 import type { CourseData } from "../../types/course";
 import type { TemplateId } from "../../types/templates";
 
 const CourseBuilderPage: React.FC = () => {
+  // Estado con el texto bruto del JSON en el textarea
   const [jsonText, setJsonText] = useState<string>("");
+  // Estado con el JSON ya parseado al tipo CourseData
   const [parsedData, setParsedData] = useState<CourseData | null>(null);
+  // Plantilla seleccionada (por defecto la de Figma DB)
   const [selectedTemplateId, setSelectedTemplateId] =
-    useState<TemplateId>("minimal");
+    useState<TemplateId>("databaseFigma");
 
+  // Cambia la plantilla cuando el usuario elige otra en el panel izquierdo
   const handleTemplateChange = (id: TemplateId) => setSelectedTemplateId(id);
 
   return (
-    <div className="flex min-h-screen w-screen flex-col bg-slate-950">
+    // Contenedor principal de toda la página
+    // flex-col para tener: header arriba y contenido abajo
+    // overflow-hidden para que el scroll se controle SOLO en las columnas internas
+    <div className="flex min-h-screen w-screen flex-col bg-slate-950 overflow-hidden">
+      {/* Header verde superior (se mantiene igual) */}
       <AppHeader />
 
-      <main
-        className="
-          flex flex-1 gap-4
-          bg-linear-to-br from-emerald-100 via-emerald-50 to-slate-200
-          px-4 py-4
-          overflow-hidden
-        "
-      >
-        {/* Columna izquierda (JSON + botón) */}
-        <div
+      {/* Zona principal: JSON a la izquierda / vista previa a la derecha */}
+      <main className="flex flex-1 min-h-0 bg-slate-950 text-slate-50">
+        {/* COLUMNA IZQUIERDA: JSON + selector de plantilla */}
+        <section
           className="
-            flex w-full max-w-md flex-col
-            h-[calc(100vh-80px)]
+            flex
+            h-[calc(100vh-64px)]  /* alto ventana menos el header */
+            w-full max-w-md       /* ancho máximo tipo panel lateral */
+            flex-col
+            border-r border-emerald-900/30
+            bg-emerald-950/40
+            px-4 py-4
+            overflow-y-auto       /* scroll SOLO dentro del panel izquierdo */
           "
         >
           <JsonInputPanel
-            value={jsonText}
-            onChange={setJsonText}
-            onParseJson={setParsedData}
-            selectedTemplateId={selectedTemplateId}
-            onTemplateChange={handleTemplateChange}
+            value={jsonText}                 // texto actual del JSON
+            onChange={setJsonText}           // actualiza texto del JSON
+            onParseJson={setParsedData}      // guarda el JSON parseado
+            selectedTemplateId={selectedTemplateId} // plantilla seleccionada
+            onTemplateChange={handleTemplateChange} // cambia plantilla
           />
-        </div>
+        </section>
 
-        {/* Columna derecha (Preview) */}
-        <div className="flex min-w-0 flex-1">
-          <div
-            className="
-              flex h-full w-full flex-col
-              rounded-3xl border border-slate-800
-              bg-slate-950
-              shadow-2xl shadow-slate-900/60
-              overflow-hidden
-            "
-          >
-            <header className="flex items-center justify-between border-b border-slate-800 px-6 py-3">
-              <div className="flex flex-col">
-                <span className="text-xs font-semibold tracking-[0.2em] text-emerald-400 uppercase">
-                  Vista previa del curso
-                </span>
-                <span className="text-xs text-slate-400">
-                  Renderizado en tiempo real según tu JSON.
-                </span>
-              </div>
-              <span className="rounded-full border border-slate-700 px-3 py-1 text-[11px] text-slate-300">
-                Solo lectura
-              </span>
-            </header>
-
-            <div className="flex-1 min-h-0 overflow-hidden">
-              {/* El shell ya maneja el scroll interno de la plantillas */}
-              <PreviewShell data={parsedData} templateId={selectedTemplateId} />
-            </div>
-          </div>
-        </div>
+        {/* COLUMNA DERECHA: solo la plantilla, ocupando TODO el espacio */}
+        <section
+          className="
+            flex-1              /* ocupa todo el espacio restante */
+            min-w-0             /* permite que el contenido se encoja sin romper layout */
+            h-[calc(100vh-64px)]
+            bg-slate-900        /* fondo oscuro uniforme como en Figma */
+          "
+        >
+          {/* 
+            Importante:
+            - PreviewShell se encarga del scroll interno de la plantilla
+            - Aquí NO ponemos bordes ni sombras, para que se vea
+              como una página completa, igual a la vista de Figma.
+          */}
+          <PreviewShell data={parsedData} templateId={selectedTemplateId} />
+        </section>
       </main>
     </div>
   );

@@ -179,6 +179,12 @@ export interface LandingContentBlock {
     title: string;
     description: string;
   };
+
+  marketingMix?: {
+    titulo?: string;
+    descripcion?: string;
+    casos?: MarketingMixCase[];
+  };
 }
 
 
@@ -220,4 +226,14 @@ export interface CourseData {
   landing?: CourseLanding;
 }
 
+// 👇 Caso de estudio de Marketing Mix que se usará en las 4Ps
+export interface MarketingMixCase {
+  id: string;          // "starbucks", "tesla", etc.
+  name: string;        // Nombre visible
+  logo: string;        // Emoji o caracter que usas de logo
+  producto: string;
+  precio: string;
+  plaza: string;
+  promocion: string;
+}
 

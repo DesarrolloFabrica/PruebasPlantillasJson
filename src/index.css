@@ -38,33 +38,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* -----------------------------
-   ESTILOS BASE DE TEXTO/ENLACES
------------------------------- */
-a {
-  font-weight: 500;
-  text-decoration: none;
-  color: #0c7a6f;
-}
-a:hover {
-  color: #0e5f56;
-}
 
-/* -----------------------------
-   BOTONES BASE (puedes borrar si no los usas)
------------------------------- */
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #0c7a6f;
-}
+
 
 /* -----------------------------
    MODO CLARO (opcional)
